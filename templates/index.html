@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin - Kirim Info ke Server</title>
+    <style>
+        /* CSS seperti sebelumnya */
+    </style>
+</head>
+<body>
+
+    <!-- Panel Admin -->
+    <div class="panel-admin">
+        <div class="panel-header">
+            <h2>Panel Admin</h2>
+            <img src="https://via.placeholder.com/50" alt="Anonymous">
+        </div>
+        <p>Informasi perangkat yang terkirim akan muncul di tabel di bawah.</p>
+        <table class="info-table">
+            <thead>
+                <tr>
+                    <th>Model Perangkat</th>
+                    <th>IP Perangkat</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for device in devices_info %}
+                <tr>
+                    <td>{{ device.device }}</td>
+                    <td>{{ device.ip }}</td>
+                    <td>{{ device.status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>
