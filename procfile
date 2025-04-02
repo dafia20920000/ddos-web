@@ -1,2 +1,1 @@
-web: python c2_dashboard.py
-worker: python c2_server.py
+web: gunicorn c2_dashboard:app
