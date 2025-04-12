@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="id">
+<!DOCTYPE html>
+<html lang="id">
 <head>
   <meta charset="UTF-8">
   <title>!!! SISTEM DIKUNCI !!!</title>
@@ -11,92 +12,94 @@
       overflow: hidden;
       font-family: monospace;
       color: lime;
-    }canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 0;
-}
+    }
 
-h1 {
-  text-align: center;
-  margin-top: 20px;
-  font-size: 24px;
-  color: red;
-  animation: glitch 0.2s infinite;
-  z-index: 2;
-  position: relative;
-}
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
 
-#terminal, #chat, #fakefiles {
-  background: rgba(0, 0, 0, 0.6);
-  color: lime;
-  margin: 10px;
-  padding: 10px;
-  height: 100px;
-  overflow-y: auto;
-  font-size: 14px;
-  border: 1px solid red;
-  z-index: 2;
-  position: relative;
-}
+    h1 {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 24px;
+      color: red;
+      animation: glitch 0.2s infinite;
+      z-index: 2;
+      position: relative;
+    }
 
-#qr-container {
-  text-align: center;
-  z-index: 3;
-  position: relative;
-}
+    #terminal, #chat, #fakefiles {
+      background: rgba(0, 0, 0, 0.6);
+      color: lime;
+      margin: 10px;
+      padding: 10px;
+      height: 100px;
+      overflow-y: auto;
+      font-size: 14px;
+      border: 1px solid red;
+      z-index: 2;
+      position: relative;
+    }
 
-#qr {
-  width: 180px;
-  height: 180px;
-  border: 4px solid red;
-  margin-top: 10px;
-}
+    #qr-container {
+      text-align: center;
+      z-index: 3;
+      position: relative;
+    }
 
-#warning {
-  color: red;
-  font-size: 14px;
-  margin-top: 8px;
-  animation: glitch 0.2s infinite;
-}
+    #qr {
+      width: 180px;
+      height: 180px;
+      border: 4px solid red;
+      margin-top: 10px;
+    }
 
-#countdown {
-  font-size: 24px;
-  color: red;
-  margin-top: 5px;
-}
+    #warning {
+      color: red;
+      font-size: 14px;
+      margin-top: 8px;
+      animation: glitch 0.2s infinite;
+    }
 
-#unlock {
-  text-align: center;
-  margin-top: 10px;
-  z-index: 2;
-  position: relative;
-}
+    #countdown {
+      font-size: 24px;
+      color: red;
+      margin-top: 5px;
+    }
 
-#unlock input {
-  padding: 10px;
-  font-size: 16px;
-  background: black;
-  color: lime;
-  border: 1px solid red;
-  width: 70%;
-}
+    #unlock {
+      text-align: center;
+      margin-top: 10px;
+      z-index: 2;
+      position: relative;
+    }
 
-#message {
-  color: red;
-  margin-top: 5px;
-  height: 20px;
-}
+    #unlock input {
+      padding: 10px;
+      font-size: 16px;
+      background: black;
+      color: lime;
+      border: 1px solid red;
+      width: 70%;
+    }
 
-@keyframes glitch {
-  0% { transform: translate(0, 0); }
-  20% { transform: translate(-1px, 1px); }
-  40% { transform: translate(1px, -1px); }
-  60% { transform: translate(-2px, -2px); }
-  80% { transform: translate(2px, 2px); }
-  100% { transform: translate(0, 0); }
-}
+    #message {
+      color: red;
+      margin-top: 5px;
+      height: 20px;
+    }
+
+    @keyframes glitch {
+      0% { transform: translate(0, 0); }
+      20% { transform: translate(-1px, 1px); }
+      40% { transform: translate(1px, -1px); }
+      60% { transform: translate(-2px, -2px); }
+      80% { transform: translate(2px, 2px); }
+      100% { transform: translate(0, 0); }
+    }
 
   </style>
 </head>
@@ -105,14 +108,19 @@ h1 {
 <h1>!!! SISTEM ANDA TELAH DIKUNCI !!!</h1>
 <div id="terminal"></div>
 <div id="chat"></div>
-<div id="fakefiles"></div><div id="qr-container">
+<div id="fakefiles"></div>
+<div id="qr-container">
   <img id="qr" src="https://api.qrserver.com/v1/create-qr-code/?data=Bayar+ke+Dafian+Sekarang!&size=180x180" alt="QR">
   <div id="warning">SCAN SEKARANG ATAU DATA LO DISEBAR!</div>
   <div id="countdown">30</div>
-</div><div id="unlock">
+</div>
+<div id="unlock">
   <input type="password" id="key" placeholder="Masukkan Kunci Pembuka">
   <div id="message"></div>
-</div><script>
+</div>
+
+<script>
+  // Matrix Animation
   const canvas = document.getElementById("matrixCanvas");
   const ctx = canvas.getContext("2d");
   canvas.height = window.innerHeight;
@@ -136,6 +144,7 @@ h1 {
   }
   setInterval(draw, 33);
 
+  // Terminal Logs
   const logs = [
     "[+] Sistem terenkripsi...",
     "[+] QR Pembayaran dibuat...",
@@ -153,6 +162,7 @@ h1 {
   }
   showLogs();
 
+  // Chat Simulation
   const chat = document.getElementById("chat");
   const messages = [
     "Hacker: Data sudah kami backup.",
@@ -172,6 +182,7 @@ h1 {
   }
   showChat();
 
+  // Fake File Infection
   const fileBox = document.getElementById("fakefiles");
   function simulateFiles() {
     const names = ["dokumen1.docx", "foto_pribadi.jpg", "data_penting.xlsx", "password.txt"];
@@ -184,6 +195,7 @@ h1 {
   }
   simulateFiles();
 
+  // Unlock Key Check
   document.getElementById("key").addEventListener("keyup", function(e) {
     const val = this.value.trim();
     const msg = document.getElementById("message");
@@ -191,7 +203,9 @@ h1 {
       if (val === "dafian1209") {
         msg.style.color = "lime";
         msg.innerText = "Akses Diterima...";
-        setTimeout(() => window.location.href = "https://www.google.co.id/?hl=id", 1000);
+        setTimeout(() => {
+          window.location.href = "https://google.com";  // Change to Google or other redirect
+        }, 1000);
       } else {
         msg.innerText = "Kunci Salah!";
         if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
@@ -199,6 +213,7 @@ h1 {
     }
   });
 
+  // Countdown and Data Destruction Logic
   let count = 30;
   const countdown = document.getElementById("countdown");
   const warning = document.getElementById("warning");
@@ -219,6 +234,10 @@ h1 {
     }
   }, 1000);
 
-  window.onbeforeunload = () => "Jangan tinggalkan halaman!";
-</script></body>
+  // Prevent Exit without Key
+  window.onbeforeunload = function() {
+    return "Jangan tinggalkan halaman!";
+  };
+</script>
+</body>
 </html>
